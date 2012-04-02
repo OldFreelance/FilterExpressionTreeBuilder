@@ -25,7 +25,7 @@ namespace ru.ocltd.linq.test
         {
             string value = "88";
 
-            string expression = "i => (((i.Id == 88) Or i.EntityName.Contains(\"88\")) Or i.EntityDescription.Contains(\"88\")) Or (i.Rank == 88))";
+            string expression = "i => ((((i.Id == 88) Or i.EntityName.Contains(\"88\")) Or i.EntityDescription.Contains(\"88\")) Or (i.Rank == 88))";
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
         }
@@ -71,7 +71,7 @@ namespace ru.ocltd.linq.test
 
             bool b = false;
 
-            string expression = "i => ((((((i.Id == 188) Or i.EntityName.Contains(\"188\") Or i.EntityName.Contains(\"True\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"False\")) Or (i.IsObsolete == False))";
+            string expression = "i => ((((((i.Id == 188) Or i.EntityName.Contains(\"188\") Or i.EntityName.Contains(\"False\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"False\")) Or (i.IsObsolete == False)))";
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value, b).ToString());
         }
