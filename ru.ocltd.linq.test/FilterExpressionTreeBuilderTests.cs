@@ -75,5 +75,17 @@ namespace ru.ocltd.linq.test
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value, b).ToString());
         }
+
+        [Test]
+        public void String_Members_Contains_Guid()
+        {
+            //Guid value = new Guid("F200F33A-A959-48B2-8368-C4824C0BA3DF");
+            string value = "F200F33A-A959-48B2-8368-C4824C0BA3DF";
+
+            string expression = "i => (((i.Guid == f200f33a-a959-48b2-8368-c4824c0ba3df) Or i.EntityName.Contains(\"F200F33A-A959-48B2-8368-C4824C0BA3DF\")) Or i.EntityDescription.Contains(\"F200F33A-A959-48B2-8368-C4824C0BA3DF\"))";
+
+            Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
+        }
     }
 }
+

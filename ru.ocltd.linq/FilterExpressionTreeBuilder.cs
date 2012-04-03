@@ -35,13 +35,19 @@ namespace ru.ocltd.linq
         /// <returns>Результирующее выражение или null если сравнение не возможно</returns>
         private static Expression CreateExpression<T>(object value, PropertyInfo member)
         {
+            //Если второй аргумент строка
             if (member.PropertyType == typeof(string))
                 return CompareStrings<T>(value, member);
 
+            //Если типы одинаковые
             if(value.GetType()==member.PropertyType)
                 return CompareEqualTypes<T>(value, member);
 
-			//Разрешено преобразование только из следующих типов
+            //Если сравниваются строка и гуид
+            if (value is string && StringIsGuid(value.ToString()) && member.PropertyType == typeof(Guid))
+                return CompareStringAndGuid<T>(value, member);
+
+			//В остальных случаях. Разрешено преобразование только из следующих типов
             if (value is DateTime || value is Guid || value is string)
                 return TryToCompare<T>(value, member);
 
@@ -76,6 +82,13 @@ namespace ru.ocltd.linq
             return Expression.Equal(Expression.MakeMemberAccess(param, member), constant);
         }
 
+        private static Expression CompareStringAndGuid<T>(object value, PropertyInfo member)
+        {
+            ParameterExpression param = Expression.Parameter(typeof(T), "i");
+            ConstantExpression constant = Expression.Constant(new Guid(value.ToString()), typeof(Guid));
+            return Expression.Equal(Expression.MakeMemberAccess(param, member), constant);
+        }
+
         /// <summary>
         /// Попытка сравнить аргументы если их типы разные
         /// </summary>
@@ -98,6 +111,17 @@ namespace ru.ocltd.linq
             {
                 return null;
             }
+        }
+
+        /// <summary>
+        /// Проверка является ли данная строка гуидом
+        /// </summary>
+        /// <param name="value">Строка</param>
+        /// <returns>Результат проверки</returns>
+        private static bool StringIsGuid(string value)
+        {
+            Guid guid;
+            return Guid.TryParse(value, out guid);
         }
     }
 }

@@ -11,6 +11,9 @@ namespace ru.ocltd.linq.test
         [Key]
         [Display(Name = "Идентификатор")]
         public int Id { get; set; }
+
+        [Display(Name = "Глобальный идентификатор")]
+        public Guid Guid { get; set; }
         
         [Required(ErrorMessage = "Необходимо указать краткое наименование!")]
         [MinLength(2, ErrorMessage = "Краткое наименование должно содержать не менее 2 символов!")]
