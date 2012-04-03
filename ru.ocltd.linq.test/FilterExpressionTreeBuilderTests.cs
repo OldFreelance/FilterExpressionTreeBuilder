@@ -59,7 +59,7 @@ namespace ru.ocltd.linq.test
 
             DateTime d = new DateTime(2012, 3, 20);
 
-            string expression = "i => ((((((i.Id == 188) Or i.EntityName.Contains(\"188\") Or i.EntityName.Contains(\"20.03.2012 0:00:00\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"20.03.2012 0:00:00\")) Or (i.Rank == 188)) Or (e.LastModified == 20.03.2012 0:00:00))";
+            string expression = "i => (((((((i.Id == 188) Or i.EntityName.Contains(\"188\")) Or i.EntityName.Contains(\"20.03.2012 0:00:00\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"20.03.2012 0:00:00\")) Or (i.Rank == 188)) Or (i.LastModified == 20.03.2012 0:00:00))";
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value, d).ToString());
         }
@@ -71,7 +71,7 @@ namespace ru.ocltd.linq.test
 
             bool b = false;
 
-            string expression = "i => ((((((i.Id == 188) Or i.EntityName.Contains(\"188\") Or i.EntityName.Contains(\"False\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"False\")) Or (i.IsObsolete == False)))";
+            string expression = "i => (((((((i.Id == 188) Or i.EntityName.Contains(\"188\")) Or i.EntityName.Contains(\"False\")) Or i.EntityDescription.Contains(\"188\")) Or i.EntityDescription.Contains(\"False\")) Or (i.Rank == 188)) Or (i.IsObsolete == False))";
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value, b).ToString());
         }
