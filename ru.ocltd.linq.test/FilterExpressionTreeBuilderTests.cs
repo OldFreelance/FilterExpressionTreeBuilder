@@ -79,13 +79,54 @@ namespace ru.ocltd.linq.test
         [Test]
         public void String_Members_Contains_Guid()
         {
-            //Guid value = new Guid("F200F33A-A959-48B2-8368-C4824C0BA3DF");
             string value = "F200F33A-A959-48B2-8368-C4824C0BA3DF";
 
             string expression = "i => (((i.Guid == f200f33a-a959-48b2-8368-c4824c0ba3df) Or i.EntityName.Contains(\"F200F33A-A959-48B2-8368-C4824C0BA3DF\")) Or i.EntityDescription.Contains(\"F200F33A-A959-48B2-8368-C4824C0BA3DF\"))";
 
             Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
         }
+
+        [Test]
+        public void String_Members_Contains_Guid_Convertible_String()
+        {
+            string value = "F200F33AA95948B28368C4824C0BA3DF";
+
+            string expression = "i => (((i.Guid == f200f33a-a959-48b2-8368-c4824c0ba3df) Or i.EntityName.Contains(\"F200F33AA95948B28368C4824C0BA3DF\")) Or i.EntityDescription.Contains(\"F200F33AA95948B28368C4824C0BA3DF\"))";
+
+            Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
+        }
+
+        [Test]
+        public void String_Members_Contains_Bit_Convertible_String()
+        {
+            string value = "1";
+
+            string expression = "i => ((((i.Id == 1) Or i.EntityName.Contains(\"1\")) Or i.EntityDescription.Contains(\"1\")) Or (i.Rank == 1))";
+
+            Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
+        }
+
+        [Test]
+        public void String_Members_Contains_Boolean_Convertible_String()
+        {
+            string value = "True";
+
+            string expression = "i => (i.EntityName.Contains(\"True\") Or i.EntityDescription.Contains(\"True\"))";
+
+            Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
+        }
+
+
+        [Test]
+        public void String_Members_Contains_Value_Or_Big_Numeric_Members_Equals_Converted_Value()
+        {
+            string value = decimal.MaxValue.ToString();
+
+            string expression = "i => ((i.EntityName.Contains(\"79228162514264337593543950335\") Or i.EntityDescription.Contains(\"79228162514264337593543950335\")) Or (i.Rank == 79228162514264337593543950335))";
+
+            Assert.AreEqual(expression, FilterExpressionTreeBuilder.Build<SampleEntity>(value).ToString());
+        }
+
     }
 }
 

@@ -48,7 +48,7 @@ namespace ru.ocltd.linq
                 return CompareStringAndGuid<T>(value, member);
 
 			//В остальных случаях. Разрешено преобразование только из следующих типов
-            if (value is DateTime || value is Guid || value is string)
+            if ((value is string ) && (member.PropertyType != typeof(bool)))
                 return TryToCompare<T>(value, member);
 
             return null;
@@ -103,11 +103,7 @@ namespace ru.ocltd.linq
                 return Expression.Equal(Expression.MakeMemberAccess(Expression.Parameter(typeof(T), "i"), member),
                     Expression.Constant(Convert.ChangeType(value, member.PropertyType), member.PropertyType));
             }
-            catch (InvalidCastException e)
-            {
-                return null;
-            }
-            catch (FormatException e)
+            catch (Exception e)
             {
                 return null;
             }
